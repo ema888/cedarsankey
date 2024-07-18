@@ -1,11 +1,12 @@
 #' Process data
 #'
-#' This function takes a dataframe as an input. It assumes that the data in the
-#' columns contains the risk values over time, with years as the column names and
-#' risk factors as the row names.
+#' This function takes a dataframe as an input. It assumes that the first column
+#' of the dataframe is the row names and the rest of the data in the remaining
+#' columns contains the risk values over time, with years as the column names.
 #'
 #' @param df the dataframe you wish to use
 #' @return a new dataframe in the format to create the sankey later on
+#' @export
 process_data <- function(df){
 
   risk_data <- data.frame()
