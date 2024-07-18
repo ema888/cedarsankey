@@ -133,14 +133,14 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
 
   main_plot <- risk_data %>%
     ggplot2::ggplot(
-      ggplot2::aes(x = year,
+      ggalluvial::aes(x = year,
                    y = graph_value,
                    alluvium = risk_factors,
                    stratum = rank,
                    label = rounded_val)
     ) +
     ggalluvial::geom_alluvium(data = risk_data,
-                              ggplot2::aes(fill = risk_factors),
+                              ggalluvial::aes(fill = risk_factors),
                               size = h,
                               color = "white",
                               width = 0.75,
