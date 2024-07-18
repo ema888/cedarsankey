@@ -137,26 +137,16 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
 
   main_plot <- risk_data %>%
     ggplot(
-      aes(x = year,
-                   y = graph_value,
-                   alluvium = risk_factors)
+      aes(x = year, y = graph_value, alluvium = risk_factors, stratum = rank,
+          label = rounded_val)
     ) +
-    stat_stratum(aes(alluvium = risk_factors,
-                     stratum = rank,
-                     label = rounded_val,
-                     fill = risk_factors,
-    ),
-    color = "white") +
     geom_alluvium(data = risk_data,
-                              aes(alluvium = risk_factors,
-                                           stratum = rank,
-                                           label = rounded_val,
-                                           fill = risk_factors),
-                              size = h,
-                              color = "white",
-                              width = 0.75,
-                              alpha = 1,
-                              curve_type = "linear") +
+                  aes(fill = risk_factors),
+                  size = h,
+                  color = "white",
+                  width = 0.75,
+                  alpha = 1,
+                  curve_type = "linear") +
     scale_y_continuous(limits = c(0, y_max)) +
     theme_minimal() +
     ggtitle("Risk Contributors to Stroke in Blacks") +
@@ -174,21 +164,15 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
       plot.margin = margin(t = 2, r = 1, b = 0.5, l = 2, unit = "cm")
     ) +
     annotate("text",
-                      x = 0,
-                      y = label_order$y_pos,
-                      label = label_order$risk_factors) +
+             x = 0,
+             y = label_order$y_pos,
+             label = label_order$risk_factors) +
     coord_cartesian(clip = 'off',
-                             ylim = c(0, y_max)) +
+                    ylim = c(0, y_max)) +
     geom_label(data = risk_data,
-                        aes(alluvium = risk_factors,
-                                     stratum = rank,
-                                     label = rounded_val,
-                                     fill = risk_factors),
-                        stat = "stratum",
-                        size = 3,
-                        color = "white",
-                        fontface = "bold",
-                        label.size = 0) +
+               aes(fill = risk_factors), stat = "stratum", size = 3, color = "white",
+               fontface = "bold",
+               label.size = 0) +
     guides(
       fill = guide_legend(
         title = "Legend Title",
