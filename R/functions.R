@@ -137,6 +137,12 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
                    y = graph_value,
                    alluvium = risk_factors)
     ) +
+    ggalluvial::stat_stratum(ggplot2::aes(alluvium = risk_factors,
+                     stratum = rank,
+                     label = rounded_val,
+                     fill = risk_factors,
+    ),
+    color = "white") +
     ggalluvial::geom_alluvium(data = risk_data,
                               ggplot2::aes(alluvium = risk_factors,
                                            stratum = rank,
