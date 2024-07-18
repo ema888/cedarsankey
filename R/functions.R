@@ -79,7 +79,7 @@ process_data <- function(df){
 #' @return a ggplot of your sankey chart
 #' @export
 create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_col = c("#da654f", "#d78f54", "#8aba8f", "#4b6b91", "#7eacc5")){
-  risk_data <- cedarsankey::process_data(df)
+  risk_data <- process_data(df)
 
   # create label order used for labeling y-axis later
   rank_order <- order(risk_data[risk_data$year == levels(risk_data$year)[1], ]$rank)
