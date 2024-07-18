@@ -133,14 +133,15 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
 
   main_plot <- risk_data %>%
     ggplot2::ggplot(
-      ggalluvial::aes(x = year,
+      ggplot2::aes(x = year,
                    y = graph_value,
-                   alluvium = risk_factors,
-                   stratum = rank,
-                   label = rounded_val)
+                   alluvium = risk_factors)
     ) +
     ggalluvial::geom_alluvium(data = risk_data,
-                              ggalluvial::aes(fill = risk_factors),
+                              ggplot2::aes(alluvium = risk_factors,
+                                           stratum = rank,
+                                           label = rounded_val,
+                                           fill = risk_factors),
                               size = h,
                               color = "white",
                               width = 0.75,
@@ -169,7 +170,10 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
     ggplot2::coord_cartesian(clip = 'off',
                              ylim = c(0, y_max)) +
     ggplot2::geom_label(data = risk_data,
-                        ggplot2::aes(fill = risk_factors),
+                        ggplot2::aes(alluvium = risk_factors,
+                                     stratum = rank,
+                                     label = rounded_val,
+                                     fill = risk_factors),
                         stat = "stratum",
                         size = 3,
                         color = "white",
