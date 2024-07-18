@@ -115,14 +115,14 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
     aes(x = x1,
                  xend = x1,
                  y = 0,
-                 yend = y_max),
+                 yend = y_max + 0.2),
     color = "white",
     size = 0.5),
     geom_segment(
       aes(x = x2,
                    xend = x2,
                    y = 0,
-                   yend = y_max),
+                   yend = y_max + 0.2),
       color = "white",
       linewidth = 0.5))
 
