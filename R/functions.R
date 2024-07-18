@@ -148,7 +148,7 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
                               curve_type = "linear") +
     ggplot2::scale_y_continuous(limits = c(0, y_max)) +
     ggplot2::theme_minimal() +
-    ggtitle("Risk Contributors to Stroke in Blacks") +
+    ggplot2::ggtitle("Risk Contributors to Stroke in Blacks") +
     ggplot2::theme(
       panel.grid = ggplot2::element_blank(),
       axis.title.x = ggplot2::element_blank(),
