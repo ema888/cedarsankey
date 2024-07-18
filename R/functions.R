@@ -104,27 +104,27 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
   form <- paste0("%.", round, "f")
   risk_data$rounded_val <- sprintf(form, risk_data$value)
 
+  # find the largest stacked bar
+  sum_risk <- risk_data %>%
+    group_by(year) %>%
+    summarize(size = sum(value))
+  y_max <- max(sum_risk$size)
+
   # create the vertical white lines
   vertical_segments <- list(geom_segment(
     aes(x = x1,
                  xend = x1,
                  y = 0,
-                 yend = 1.4),
+                 yend = y_max),
     color = "white",
     size = 0.5),
     geom_segment(
       aes(x = x2,
                    xend = x2,
                    y = 0,
-                   yend = 1.4),
+                   yend = y_max),
       color = "white",
-      size = 0.5))
-
-  # find the largest stacked bar
-  sum_risk <- risk_data %>%
-    group_by(year) %>%
-    summarize(size = sum(value))
-  y_max <- max(sum_risk$size) + 0.1
+      linewidth = 0.5))
 
   # geom_blank is empty layer
   v <- geom_blank()
@@ -151,7 +151,7 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
                   width = 0.75,
                   alpha = 1,
                   curve_type = "linear") +
-    scale_y_continuous(limits = c(0, y_max)) +
+    scale_y_continuous(limits = c(0, y_max + 0.2)) +
     theme_minimal() +
     ggtitle("Risk Contributors to Stroke in Blacks") +
     theme(
@@ -172,7 +172,7 @@ create_viz <- function(df, horizontal = FALSE, vertical = FALSE, round = 2, lab_
              y = label_order$y_pos,
              label = label_order$risk_factors) +
     coord_cartesian(clip = 'off',
-                    ylim = c(0, y_max)) +
+                    ylim = c(0, y_max + 0.2)) +
     geom_label(data = risk_data,
                aes(fill = risk_factors), stat = "stratum", size = 3, color = "white",
                fontface = "bold",
