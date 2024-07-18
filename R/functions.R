@@ -22,6 +22,10 @@ process_data <- function(df){
   years <- rownames(risk_data)
   risk_data <- rownames_to_column(risk_data, var = "year")
 
+  # Make sure all the values are numerics
+  risk_data <- risk_data %>%
+    mutate_all(as.numeric)
+
   # Pivot longer to list out all combinations
   risk_data <- risk_data %>%
     pivot_longer(colnames(risk_data)[c(2:length(colnames(risk_data)))], names_to = "risk_factors")
