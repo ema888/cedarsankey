@@ -2,3 +2,4 @@
 
 export(create_viz)
 export(process_data)
+importFrom(magrittr,"%>%")
