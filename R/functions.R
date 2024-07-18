@@ -13,14 +13,14 @@ process_data <- function(df){
 
   # Turn first column into rownames
   column_1 <- colnames(df)[1]
-  risk_data <- (column_to_rownames(df, var = column_1))
+  risk_data <- (tibble::column_to_rownames(df, var = column_1))
 
   # Transform the data
   risk_data <- as.data.frame(t(risk_data))
 
   # Turn the row names (now the years into a column named 'year')
   years <- rownames(risk_data)
-  risk_data <- rownames_to_column(risk_data, var = "year")
+  risk_data <- tibble::rownames_to_column(risk_data, var = "year")
 
   # Pivot longer to list out all combinations
   risk_data <- risk_data %>%
