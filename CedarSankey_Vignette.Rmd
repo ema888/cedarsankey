@@ -1,0 +1,74 @@
+---
+title: "CedarSankey Vignette"
+author: "Erica Ma"
+date: "2024-07-18"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# cedarsankey   
+
+This package transforms risk data into a sankey flow chart.   
+
+## Packages Needed  
+
+The cedarsankey pacakge is used along side several other frequently used packages, such as tidyverse, dplyr, ggplot2, and ggalluvial. These packages must be called prior to use of the cedarsankey package. 
+
+```{r warning = FALSE, message = FALSE}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(ggalluvial)
+```
+
+## Installation   
+
+The latest version of the cedarsankey package can be installed from github: 
+```{r, eval = FALSE}
+devtools::install_github("https://github.com/ema888/cedarsankey")
+```
+
+```{r eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+devtools::load_all()
+```
+
+## Example   
+
+There are 2 functions in the cedarsankey package. The first is 'process_data', which turns your dataframe into a long form table and includes some transformations and calculated columns to use for the sankey chart in the create_viz function. The create_viz function takes a dataframe, calls the process_data function to transform the dataframe, and outputs a sankey chart. You can choose to turn on vertical or horizontal lines in the sankey chart to better visualize the data. There is an argument to choose the number of decimals to round the labels to, and an argument exists to choose the color for the different risk factors.   
+
+The process_data function assumes that the first column of your dataframe or tibble is the rownames/risk factors, and the column names are the years. Here is what the 'process_data' function outputs: 
+
+```{r}
+data("risk")
+data_risk <- process_data(risk)
+head(data_risk, 10)
+```
+
+You probably won't be using the process_data function directly, because it is directly called in the 'create_viz' function. Note you can choose which lines to show (horizontal or vertical) and how much to round the labels to. Here is what the 'create_viz' outputs: 
+
+```{r, fig.width = 10, fig.height = 7.5, warning = FALSE}
+# note I put in the risk data before being processed
+create_viz(risk, horizontal = FALSE, vertical = FALSE)
+create_viz(risk, horizontal = TRUE, vertical = FALSE, round = 3)
+create_viz(risk, horizontal = FALSE, vertical = TRUE, round = 3)
+create_viz(risk, horizontal = TRUE, vertical = TRUE)
+```
+    
+You can also change the colors or add additional colors in case you have more or less risk factors in your data frame. The create_viz function automatically takes up to 5 risk factors, and if you have extra risk factors, you will need to give the lab_col (color of strata) argument a new vector of the same length as the number of risk factors.     
+
+```{r, warning = FALSE, fig.width = 10, fig.height = 7.5}
+# create new dataframe with extra risk factor
+risk_new <- rbind(risk, c("Alcohol", 0.722, 0.682, 0.433, 0.321, 0.212))
+risk_new
+# graph risk_new 
+create_viz(risk_new, horizontal = TRUE, vertical = TRUE, lab_col = c("#da654f", "#d78f54", "#8aba8f", "#4b6b91", "#7eacc5", "#8e6e9b"))
+
+```
+    
+## Citations    
+ggalluvial: Jason Cory Brunson and Quentin D. Read (2023). ggalluvial: Alluvial Plots in 'ggplot2'. R package version 0.12.5. http://corybrunson.github.io/ggalluvial/    
+
+R-package: Chan, Fong Chun . “Making Your First R Package.” Tinyheero.github.io, 26 July 2015, tinyheero.github.io/jekyll/update/2015/07/26/making-your-first-R-package.html. Accessed 17 July 2024.
